@@ -1,0 +1,11 @@
+registry:
+    image: registry:2
+    ports:
+        - "5000:5000"
+
+nginx:
+    image: metavige/registry-nginx
+    ports:
+        - "443:443"
+    links:
+        - "registry:registry"

@@ -17,6 +17,9 @@ RUN echo " =====> Install Packages" && \
         --conf-path=/etc/nginx/nginx.conf \
         --lock-path=/var/lock/nginx.lock \
         --pid-path=/var/run/nginx.pid \
+        --with-http_stub_status_module \
+        --with-http_ssl_module \
+        --with-http_realip_module \
         --with-http_auth_request_module && \
     echo " =====> Make and Install....." && \
     make && \
@@ -25,11 +28,12 @@ RUN echo " =====> Install Packages" && \
     apk del build-base wget && \
     rm -Rf /tmp/src && \
     rm -Rf /var/cache/apk/* && \
-	rm -rf /etc/nginx/conf.d/* && \
-	mkdir -p /etc/nginx/external
+	rm -rf /etc/nginx/conf.d/*
 
-COPY . /
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
-EXPOSE 80
+EXPOSE 443
 
-CMD ["nginx"]
+CMD ["/entrypoint.sh"]
