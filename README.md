@@ -32,3 +32,5 @@ Adding password for user newuser
 
 現在只有在 ubuntu 的環境測試過，可以很正常的運行  
 目前在 docker-machine 建立起來的環境試驗還不能使用   
+
+
