@@ -28,9 +28,21 @@ Adding password for user newuser
 / #
 ``` 
 
-## 後記
+目前 registry-nginx 的 htpasswd 檔案放在 `/.htpasswd`  
+所以，如果為了方便維護，也可以透過 -v 的方式，將檔案放在外部    
 
-現在只有在 ubuntu 的環境測試過，可以很正常的運行  
-目前在 docker-machine 建立起來的環境試驗還不能使用   
+## Docker 使用 private repository
+
+假設 registry-nginx 所在 IP 是 192.168.0.10，我們可以用 Host 的 Mapping 
+方便使用  
+如果我們使用 registry.co 當做 registry host  
+
+* 先在 /etc/hosts 加上 192.168.0.10 registry.co 的 Mapping
+* 建立 /etc/docker/certs.d/registry.co 目錄 
+* 透過 `openssl s_client -showcerts -connect registry.co:443 | openssl x509 -outform PEM > /etc/docker/certs.d/registry.co/ca.crt`  指令，把 SSL 網站的 CERT 匯出變成本地端的檔案  
+* 透過 `docker login registry.co`  登入 registry
+ 
+
+
 
 
