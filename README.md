@@ -40,8 +40,8 @@ Adding password for user newuser
 另外，目前 docker client version 測試是 1.9.0  
 
 * 先在 /etc/hosts 加上 192.168.0.10 registry.co 的 Mapping
-* 建立 /etc/docker/certs.d/registry.co 目錄 
-* 透過 `openssl s_client -showcerts -connect registry.co:443 | openssl x509 -outform PEM > /etc/docker/certs.d/registry.co/ca.crt`  指令，把 SSL 網站的 CERT 匯出變成本地端的檔案  
+* 建立 /etc/docker/certs.d/registry.co 目錄
+* 透過 `sudo sh -c "openssl s_client -showcerts -connect registry.co:443 </dev/null 2>/dev/null| openssl x509 -outform PEM > /etc/docker/certs.d/registry.co/ca.crt"` 指令，把 SSL 網站的 CERT 匯出變成本地端的檔案
 * 透過 `docker login registry.co`  登入 registry
  
 
