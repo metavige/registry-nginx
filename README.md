@@ -44,7 +44,23 @@ Adding password for user newuser
 * 透過 `sudo sh -c "openssl s_client -showcerts -connect registry.co:443 </dev/null 2>/dev/null| openssl x509 -outform PEM > /etc/docker/certs.d/registry.co/ca.crt"` 指令，把 SSL 網站的 CERT 匯出變成本地端的檔案
 * 透過 `docker login registry.co`  登入 registry
  
+## 在 docker-machine 內加上以上設定，自動化
 
+如果是使用 docker-machine 建立的環境，上面做的動作需要進入到機器內去做。  
+但是做完之後，下次重開機得在重做一次，因為 docker-machine 建立出來的 virtualbox 環境，每次在重新啟動的時候，除了 /var/lib/boot2docker 目錄下的檔案，其他環境設定都會重新產生  
+所以，需要有其他方法來做到以上動作～  
 
+* 用 `docker-machine ssh` 指令進入 machine
+* 進入到 `/var/lib/boot2docker` 目錄下，建立一個 boot2local.sh 檔案 (sudo)
+* 把上面的動作放進這個 sh 檔案裡面
 
+Sample:    
+
+```
+#!/bin/sh
+
+echo "192.168.0.10 registry.co" >> /etc/hosts
+mkdir -p /etc/docker/certs.d/registry.co
+sh -c "openssl s_client -showcerts -connect registry.co:443 </dev/null 2>/dev/null| openssl x509 -outform PEM > /etc/docker/certs.d/registry.co/ca.crt"
+```
 
